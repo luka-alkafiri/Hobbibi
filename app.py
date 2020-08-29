@@ -7,7 +7,6 @@ from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
-import requests
 
 from helpers import sorry, login_required, location
 
@@ -39,21 +38,6 @@ engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
 
-def get_country(ip_address):
-    try:
-        response = requests.get("http://ip-api.com/json/{}".format(ip_address))
-        js = response.json()
-        print (js)
-        country = js['countryCode']
-        return country
-    except Exception as e:
-        return "Unknown"
-
-def home():
-    ip_address = request.remote_addr
-    country = get_country(ip_address)
-    return country
-
 @app.route("/")
 def about():
     # Return Welcome page
@@ -72,12 +56,10 @@ def search():
     current = db.execute("SELECT row_to_json(row(country,city)) FROM users WHERE id = :user", {"user":session["user_id"]}).fetchone()
 
     # Set a variable for user country
-    # country = current[0]["f1"]
-    country = home()
+    country = current[0]["f1"]
 
     # Set a variable for current user city
-    # city = current[0]["f2"]
-    city = home()
+    city = current[0]["f2"]
 
     # User reached the page via POST
     if request.method == "POST":
@@ -193,12 +175,11 @@ def register():
         name = request.form.get("username")
 
         # Get the user city via the location function
-        # city = location()[0]
-        city = home()
+        city = location()[0]
 
         # Get user country via the location function
-        # country = location()[1]
-        country = home()
+        country = location()[1]
+
         # Getting app from the form
         app = request.form.get("app")
 
@@ -239,12 +220,10 @@ def login():
     session.clear()
 
     # Get user city via the location function
-    # city = location()[0]
-    city = home()
+    city = location()[0]
 
     # Get user country via the location function
-    # country = location()[1]
-    country = home()
+    country = location()[1]
 
     #User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
