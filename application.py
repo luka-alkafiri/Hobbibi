@@ -39,7 +39,6 @@ db = scoped_session(sessionmaker(bind=engine))
 
 @app.route("/")
 def about():
-
     # Return Welcome page
     return render_template("about.html")
 
