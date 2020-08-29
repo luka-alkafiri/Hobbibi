@@ -1,6 +1,4 @@
 import os
-import re
-import json
 from flask import redirect, render_template, request, session
 from functools import wraps
 from ipstack import GeoLookup
@@ -28,4 +26,5 @@ def location():
     geo_lookup = GeoLookup(os.getenv("API_KEY"))
     location = geo_lookup.get_location(IPAddr)
     return (location['city'], location['country_name'])
+
 
