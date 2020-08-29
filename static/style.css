@@ -1,0 +1,51 @@
+nav .navbar-brand
+{
+    /* size for brand */
+    font-size: xx-large;
+    font-family: 'Lobster', Fantasy ;
+}
+
+.word
+{
+    font-family: 'Lobster', Fantasy ;
+}
+
+main .form-control
+{
+    /* center form controls */
+    display: inline-block;
+
+    /* override Bootstrap's 100% width for form controls */
+    width: auto;
+}
+
+main
+{
+    /* scroll horizontally as needed */
+    overflow-x: auto;
+
+    /* center contents */
+    text-align: center;
+}
+
+select
+{
+    width: 200px;
+    padding: 7px;
+    border-radius: 4px;
+
+}
+
+.btn-primary
+{
+    margin-bottom: 15px;
+}
+.btn-success
+{
+    margin: 10px;
+}
+
+
+
+
+

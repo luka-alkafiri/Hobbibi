@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+    <form action="/register" method="post">
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text"><br>
+        </div>
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="password" placeholder="Password" type="password"><br>
+        </div>
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="confirm" placeholder="Confirm Password" type="password"><br>
+        </div>
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="year" placeholder="Year of birth" type="number"><br>
+        </div>
+        <div class="form-group">
+            <select name='hobby'>
+                <option selected>Please select a hobby</option>
+                {% for i in hobbies %}
+                    <option>{{ i['name'] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <p><small>How can people contact you?</small></p>
+            <input autocomplete="off" autofocus class="form-control" name="app" placeholder="App name" type="text"><br>
+        </div>
+        <div class="form-group">
+            <p><small>What is your account in that app?</small></p>
+            <input autocomplete="off" autofocus class="form-control" name="link" placeholder="link or account" type="text"><br>
+        </div>
+        <button class="btn btn-primary" type="submit">Register</button>
+    </form>
+{% endblock %}

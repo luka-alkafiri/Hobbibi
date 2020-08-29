@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    hobbies
+{% endblock %}
+
+{% block main %}
+    <form action="/hobbies" method="post">
+            <div>
+            <select name='hobby'>
+                <option selected>Please select a hobby</option>
+                {% for i in hobbies %}
+                    <option>{{ i['name'] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button class="btn btn-success" type="submit">Add</button>
+    </form>
+{% endblock %}

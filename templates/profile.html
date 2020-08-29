@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Profile
+{% endblock %}
+
+{% block main %}
+    <form action="/hobbies" method="get">
+        <div class="form-group">
+            {% for i in hobbies %}
+            <div class="form-group">
+            <input class="form-control" name="hobby" disabled value="{{ i["hobby"] }}">
+            </div>
+            {% endfor %}
+        </div>
+        <button class="btn btn-primary">Add hobbies</button>
+    </form>
+{% endblock %}

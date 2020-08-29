@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+{% block tilte %}
+    Search
+{% endblock%}
+
+{% block main %}
+    <form action="/search" method="post">
+        <div class="form-group">
+            <select name='hobby'>
+                <option selected>Please select a hobby</option>
+                {% for i in hobbies %}
+                    <option>{{ i["hobby"] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button class="btn btn-primary" type="submit">Filter</button>
+    </form>
+    <div>
+    <h2>{{ country }}</h2>
+    <h4>{{ city }}</h4>
+    </div>
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Hobby</th>
+            <th>App</th>
+            <th>Link</th>
+        </tr>
+        {% for row in record %}
+            <tr>
+                <td>{{ row["name"] }}</td>
+                <td>{{ row["age"] }}</td>
+                <td>{{ row["hobby"] }}</td>
+                <td>{{ row["app"] }}</td>
+                <td>{{ row["link"] }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
