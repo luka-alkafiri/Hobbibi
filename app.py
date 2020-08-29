@@ -7,9 +7,8 @@ from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
-from ipstack import GeoLookup
 
-from helpers import sorry, login_required
+from helpers import sorry, login_required, search
 
 # Configure application
 app = Flask(__name__)
@@ -37,13 +36,6 @@ Session(app)
 
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
-
-def location():
-    IPAddr = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
-    # IPAddr = socket.gethostbyname(urllib.request.urlopen("https://ip.42.pl/raw").read())
-    geo_lookup = GeoLookup(os.getenv("API_KEY"))
-    location = geo_lookup.get_location(IPAddr)
-    return (location['city'], location['country_name'])
 
 @app.route("/")
 def about():
