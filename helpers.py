@@ -1,4 +1,6 @@
 import os
+import re
+import json
 from flask import redirect, render_template, request, session
 from functools import wraps
 from ipstack import GeoLookup
@@ -23,17 +25,12 @@ def login_required(f):
 
 def location():
     # IPAddr = socket.gethostbyname(urllib.request.urlopen("https://ip.42.pl/raw").read())
-    hostname = socket.gethostname()
-    IPAddr = socket.gethostbyname(hostname)
-    geo_lookup = GeoLookup(os.getenv("API_KEY"))
-    location = geo_lookup.get_location(IPAddr)
-    return (location["city"], location["country_name"])
-
-
-# def ip():
-#     hostname = socket.gethostname()
-#     ## getting the IP address using socket.gethostbyname() method
-#     ip_address = socket.gethostbyname(hostname)
-#     ## printing the hostname and ip_address
-#     print(f"IP Address: {ip_address}")
+    # geo_lookup = GeoLookup(os.getenv("API_KEY"))
+    # location = geo_lookup.get_location(IPAddr)
+    url = 'http://ipinfo.io/json'
+    response = urllib.request.urlopen(url)
+    data = json.load(response)
+    city = data['city']
+    country=data['country']
+    return (city, country)
 
