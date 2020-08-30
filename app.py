@@ -59,7 +59,8 @@ def search():
     current = db.execute("SELECT row_to_json(row(country,city)) FROM users WHERE id = :user", {"user":session["user_id"]}).fetchone()
 
     # Set a variable for user country
-    IPAddr = socket.gethostbyname(urllib.request.urlopen("https://ip.42.pl/raw").read())
+    # IPAddr = socket.gethostbyname(urllib.request.urlopen("https://ip.42.pl/raw").read())
+    IPAddr = request.remote_addr
     geo_lookup = GeoLookup(os.getenv("API_KEY"))
     location = geo_lookup.get_location(IPAddr)
     country = location['city']
@@ -181,7 +182,8 @@ def register():
         name = request.form.get("username")
 
         # Get the user city via the location function
-        IPAddr = socket.gethostbyname(urllib.request.urlopen("https://ip.42.pl/raw").read())
+        # IPAddr = socket.gethostbyname(urllib.request.urlopen("https://ip.42.pl/raw").read())
+        IPAddr = request.remote_addr
         geo_lookup = GeoLookup(os.getenv("API_KEY"))
         location = geo_lookup.get_location(IPAddr)
         city = location['city']
@@ -229,7 +231,9 @@ def login():
     session.clear()
 
     # Get user city via the location function
-    IPAddr = socket.gethostbyname(urllib.request.urlopen("https://ip.42.pl/raw").read())
+    # IPAddr = socket.gethostbyname(urllib.request.urlopen("https://ip.42.pl/raw").read())
+    IPAddr = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)   
+    print(IPAddr)
     geo_lookup = GeoLookup(os.getenv("API_KEY"))
     location = geo_lookup.get_location(IPAddr)
     city = location['city']
