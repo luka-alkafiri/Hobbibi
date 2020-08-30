@@ -7,10 +7,6 @@ from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
-from ipstack import GeoLookup
-import socket
-import urllib
-
 
 from helpers import sorry, login_required, location
 
@@ -59,14 +55,10 @@ def search():
     current = db.execute("SELECT row_to_json(row(country,city)) FROM users WHERE id = :user", {"user":session["user_id"]}).fetchone()
 
     # Set a variable for user country
-    # IPAddr = socket.gethostbyname(urllib.request.urlopen("https://ip.42.pl/raw").read())
-    IPAddr = request.environ['REMOTE_ADDR']
-    geo_lookup = GeoLookup(os.getenv("API_KEY"))
-    location = geo_lookup.get_location(IPAddr)
-    country = location['city']
+    country = current[0]["f1"]
 
     # Set a variable for current user city
-    city = location['country_name']
+    city = current[0]["f2"]
 
     # User reached the page via POST
     if request.method == "POST":
@@ -182,14 +174,10 @@ def register():
         name = request.form.get("username")
 
         # Get the user city via the location function
-        # IPAddr = socket.gethostbyname(urllib.request.urlopen("https://ip.42.pl/raw").read())
-        IPAddr = request.environ['REMOTE_ADDR']
-        geo_lookup = GeoLookup(os.getenv("API_KEY"))
-        location = geo_lookup.get_location(IPAddr)
-        city = location['city']
+        city = location()[0]
 
         # Get user country via the location function
-        country = location['country_name']
+        country = location()[1]
 
         # Getting app from the form
         app = request.form.get("app")
@@ -231,15 +219,10 @@ def login():
     session.clear()
 
     # Get user city via the location function
-    # IPAddr = socket.gethostbyname(urllib.request.urlopen("https://ip.42.pl/raw").read())
-    IPAddr = request.environ['REMOTE_ADDR']
-    print(IPAddr)
-    geo_lookup = GeoLookup(os.getenv("API_KEY"))
-    location = geo_lookup.get_location(IPAddr)
-    city = location['city']
+    city = location()[0]
 
     # Get user country via the location function
-    country = location['country_name']
+    country = location()[1]
 
     #User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
