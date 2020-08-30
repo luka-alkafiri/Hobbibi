@@ -60,7 +60,7 @@ def search():
 
     # Set a variable for user country
     # IPAddr = socket.gethostbyname(urllib.request.urlopen("https://ip.42.pl/raw").read())
-    IPAddr = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)   
+    IPAddr = request.environ['REMOTE_ADDR']
     geo_lookup = GeoLookup(os.getenv("API_KEY"))
     location = geo_lookup.get_location(IPAddr)
     country = location['city']
@@ -183,7 +183,7 @@ def register():
 
         # Get the user city via the location function
         # IPAddr = socket.gethostbyname(urllib.request.urlopen("https://ip.42.pl/raw").read())
-        IPAddr = request.remote_addr
+        IPAddr = request.environ['REMOTE_ADDR']
         geo_lookup = GeoLookup(os.getenv("API_KEY"))
         location = geo_lookup.get_location(IPAddr)
         city = location['city']
@@ -232,7 +232,7 @@ def login():
 
     # Get user city via the location function
     # IPAddr = socket.gethostbyname(urllib.request.urlopen("https://ip.42.pl/raw").read())
-    IPAddr = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)   
+    IPAddr = request.environ['REMOTE_ADDR']
     print(IPAddr)
     geo_lookup = GeoLookup(os.getenv("API_KEY"))
     location = geo_lookup.get_location(IPAddr)
