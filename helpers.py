@@ -22,8 +22,7 @@ def login_required(f):
     return decorated_function
 
 def location():
-    # IPAddr = socket.gethostbyname(urllib.request.urlopen("https://ip.42.pl/raw").read())
-    IPAddr = socket.gethostbyname(socket.gethostname())
+    IPAddr = socket.gethostbyname(urllib.request.urlopen("https://ip.42.pl/raw").read())
     geo_lookup = GeoLookup(os.getenv("API_KEY"))
     location = geo_lookup.get_location(IPAddr)
     return (location['city'], location['country_name'])
