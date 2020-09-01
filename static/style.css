@@ -1,3 +1,4 @@
+
 nav .navbar-brand
 {
     /* size for brand */
@@ -23,6 +24,7 @@ main .form-control
 
 main
 {
+    margin-top: 10px;
     /* scroll horizontally as needed */
     overflow-x: auto;
 
@@ -55,6 +57,14 @@ select
 main .table{
     width: 60%;
     margin: 0 auto;
+}
+
+@media only screen and (max-width: 600px){
+    main .table{
+        font-size: 11px;
+        margin: 0 auto;
+    }
+
 }
 
 
