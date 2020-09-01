@@ -12,6 +12,17 @@
         <div class="form-group">
             <input class="form-control" name="password" placeholder="Password" type="password">
         </div>
+        
         <button class="btn btn-primary" type="submit">Log In</button>
+        <div>
+            <input name='ip' id='ip' type="text">
+        </div>
     </form>
+    <script>
+        function getIP(json) {
+          var ip = json.ip;
+          document.querySelector('#ip').value = ip;
+        }
+        </script>
+        <script src="https://api.ipify.org?format=jsonp&callback=getIP"></script>
 {% endblock %}

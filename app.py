@@ -7,6 +7,8 @@ from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
+from ipstack import GeoLookup
+import socket
 
 from helpers import sorry, login_required, location
 
@@ -173,11 +175,16 @@ def register():
         # Getting name from the form
         name = request.form.get("username")
 
-        # Get the user city via the location function
-        city = location()[0]
+        ip = request.form.get('ip')
+        IPAddr = socket.gethostbyname(ip)
+        geo_lookup = GeoLookup(os.getenv("API_KEY"))
+        location = geo_lookup.get_location(IPAddr)
 
-        # Get user country via the location function
-        country = location()[1]
+        # Get user city 
+        city = location['city']
+
+        # Get user country 
+        country = location['country_name']
 
         # Getting app from the form
         app = request.form.get("app")
@@ -218,14 +225,19 @@ def login():
     #forget any "user_id"
     session.clear()
 
-    # Get user city via the location function
-    city = location()[0]
-
-    # Get user country via the location function
-    country = location()[1]
-
     #User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
+
+        ip = request.form.get('ip')
+        IPAddr = socket.gethostbyname(ip)
+        geo_lookup = GeoLookup(os.getenv("API_KEY"))
+        location = geo_lookup.get_location(IPAddr)
+
+        # Get user city 
+        city = location['city']
+
+        # Get user country 
+        country = location['country_name']
 
         # Ensure username was submitted
         if not request.form.get("username"):
