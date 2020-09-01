@@ -45,6 +45,11 @@ select
     margin: 10px;
 }
 
+#ip{
+    background-color: white;
+    border: none;
+    color: white;
+}
 
 
 
