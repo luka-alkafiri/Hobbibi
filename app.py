@@ -10,7 +10,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from ipstack import GeoLookup
 import socket
 
-from helpers import sorry, login_required, location
+from helpers import sorry, login_required
 
 # Configure application
 app = Flask(__name__)
@@ -224,7 +224,6 @@ def login():
 
     #forget any "user_id"
     session.clear()
-    
 
     #User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
