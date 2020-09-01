@@ -224,10 +224,10 @@ def login():
 
     #forget any "user_id"
     session.clear()
+    
 
     #User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
-
         ip = request.form.get('ip')
         IPAddr = socket.gethostbyname(ip)
         geo_lookup = GeoLookup(os.getenv("API_KEY"))
