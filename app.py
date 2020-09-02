@@ -175,10 +175,14 @@ def register():
         # Getting name from the form
         name = request.form.get("username")
 
+        # get client IP address
         ip = request.form.get('ip')
-        IPAddr = socket.gethostbyname(ip)
+
+        # connect to the API
         geo_lookup = GeoLookup(os.getenv("API_KEY"))
-        location = geo_lookup.get_location(IPAddr)
+        
+        # get the location details
+        location = geo_lookup.get_location(ip)
 
         # Get user city 
         city = location['city']
@@ -227,10 +231,15 @@ def login():
 
     #User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
+
+        # get client IP address
         ip = request.form.get('ip')
-        IPAddr = socket.gethostbyname(ip)
+
+        # connect to the API
         geo_lookup = GeoLookup(os.getenv("API_KEY"))
-        location = geo_lookup.get_location(IPAddr)
+
+        # get the location details
+        location = geo_lookup.get_location(ip)
 
         # Get user city 
         city = location['city']
