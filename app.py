@@ -4,7 +4,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from flask import Flask, render_template, redirect, request, session
 from flask_session import Session
-from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
 from ipstack import GeoLookup
@@ -15,24 +14,11 @@ from helpers import sorry, login_required
 app = Flask(__name__)
 
 
-# templates are auto-reloaded
-app.config["TEMPLATES_AUTO_RELOAD"] = True
-
-
-# responses aren't cached
-@app.after_request
-def after_request(response):
-    response.headers["Cache_control"] = "no-cache, no-store, must-revalidate"
-    response.headers["Expires"] = 0
-    response.headers["Pragma"] = "no-cache"
-    return response
-
-
 # Configure session to use filesystem (instead of signed cookies)
-app.config["SESSION_FILE_DIR"] = mkdtemp()
-app.config["SESSION_PERMANENT"] = True
+app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
+
 
 
 engine = create_engine(os.getenv("DATABASE_URL"))
@@ -224,9 +210,6 @@ def register():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-
-    #forget any "user_id"
-    session.clear()
 
     #User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
