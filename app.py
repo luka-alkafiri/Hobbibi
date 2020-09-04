@@ -8,7 +8,6 @@ from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
 from ipstack import GeoLookup
-import socket
 
 from helpers import sorry, login_required
 
@@ -21,12 +20,12 @@ app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 
 # responses aren't cached
-@app.after_request
-def after_request(response):
-    response.headers["Cache_control"] = "no-cache, no-store, must-revalidate"
-    response.headers["Expires"] = 0
-    response.headers["Pragma"] = "no-cache"
-    return response
+# @app.after_request
+# def after_request(response):
+#     response.headers["Cache_control"] = "no-cache, no-store, must-revalidate"
+#     response.headers["Expires"] = 0
+#     response.headers["Pragma"] = "no-cache"
+#     return response
 
 
 # Configure session to use filesystem (instead of signed cookies)
